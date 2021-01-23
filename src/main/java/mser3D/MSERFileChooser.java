@@ -61,9 +61,6 @@ public class MSERFileChooser extends JPanel {
 	  
 	  public CheckboxGroup mode = new CheckboxGroup();
 	  
-	  final Checkbox SegMode = new Checkbox("Load Segmentation Tools only", mode, onlySeg);
-	  final Checkbox TrackMode = new Checkbox("Load Segmentation and Tracking Tools", mode, TrackandSeg);
-	  public JPanel ModePanel = new JPanel();
 	  
 	public MSERFileChooser () {
 		
@@ -73,7 +70,6 @@ public class MSERFileChooser extends JPanel {
 
 		   panelFirst.setLayout(layout);
 		   Panelfile.setLayout(layout);
-		   ModePanel.setLayout(layout);
 			CardLayout cl = new CardLayout();
 			
 			panelCont.setLayout(cl);
@@ -82,14 +78,6 @@ public class MSERFileChooser extends JPanel {
 			
 			JButton Current = new JButton("Use Current movie");
 			
-		    
-		    ModePanel.add(SegMode, new GridBagConstraints(0, 0, 1, 1, 0.0, 0.0, GridBagConstraints.WEST,
-					GridBagConstraints.HORIZONTAL, insets, 0, 0));
-		 //   ModePanel.add(TrackMode, new GridBagConstraints(2, 0, 1, 1, 0.0, 0.0, GridBagConstraints.WEST,
-			//		GridBagConstraints.HORIZONTAL, insets, 0, 0));
-		    panelFirst.add(ModePanel, new GridBagConstraints(0, 0, 3, 1, 0.0D, 0.0D, 17, 
-				      -1, new Insets(10, 10, 0, 10), 0, 0));
-		    ModePanel.setBorder(methodborder);
 			
 			 Panelfile.add( ImageType, new GridBagConstraints(0, 0, 1, 1, 0.0D, 0.0D, 17, 
 				      2, insets, 0, 1));
@@ -103,7 +91,7 @@ public class MSERFileChooser extends JPanel {
 		    
 		    Panelfile.setBorder(selectfile);
 		 
-		    panelFirst.add(Panelfile, new GridBagConstraints(0, 3, 3, 1, 0.0D, 0.0D, 17, 
+		    panelFirst.add(Panelfile, new GridBagConstraints(0, 1, 3, 1, 0.0D, 0.0D, 17, 
 		      -1, new Insets(10, 10, 0, 10), 0, 0));
 		    
 		    
