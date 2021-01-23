@@ -1,6 +1,7 @@
 package mser3D;
 
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 import java.util.concurrent.Callable;
 import java.util.concurrent.ExecutionException;
@@ -14,8 +15,12 @@ import mser3D.InteractiveMethods.ValueChange;
 import net.imglib2.Cursor;
 import net.imglib2.RandomAccess;
 import net.imglib2.RandomAccessibleInterval;
+import net.imglib2.algorithm.labeling.ConnectedComponents;
+import net.imglib2.algorithm.labeling.ConnectedComponents.StructuringElement;
 import net.imglib2.img.array.ArrayImgFactory;
+import net.imglib2.img.array.ArrayImgs;
 import net.imglib2.img.display.imagej.ImageJFunctions;
+import net.imglib2.roi.labeling.ImgLabeling;
 import net.imglib2.type.logic.BitType;
 import net.imglib2.type.numeric.integer.IntType;
 import net.imglib2.type.numeric.integer.UnsignedByteType;
@@ -116,7 +121,10 @@ public class ParallelCalls implements Callable<Void> {
 			fut.get();
 			
 		}
-			ImageJFunctions.show(bitimg).setTitle("Binary Image");
+	
+	
+	        RandomAccessibleInterval<IntType> intimg = LabelSegmentationImage(bitimg);
+			ImageJFunctions.show(intimg).setTitle("Label Image");
 		
 		
 		
@@ -129,7 +137,42 @@ public class ParallelCalls implements Callable<Void> {
 		
 		return null;
 	}
-	
+	public RandomAccessibleInterval<IntType> LabelSegmentationImage(RandomAccessibleInterval<BitType> SegmentationImage) {
+		
+		   long[] dims = new long[SegmentationImage.numDimensions()];
+		   SegmentationImage.dimensions(dims);
+	       RandomAccessibleInterval<IntType> indexImg = ArrayImgs.ints(dims);
+	       RandomAccessibleInterval<IntType> LabelImage =ArrayImgs.ints(dims);	
+	       ImgLabeling<Integer, IntType> labeling = new ImgLabeling<>(indexImg);
+	       Iterator<Integer> labels = new Iterator<Integer>()
+	      {
+	          private int i = 1;
+
+	          @Override
+	          public boolean hasNext()
+	          {
+	              return true;
+	          }
+
+	          @Override
+	          public Integer next()
+	          {
+	              return i++;
+	          }
+
+	          @Override
+	          public void remove()
+	          {}
+	      };
+	      
+	      ConnectedComponents.labelAllConnectedComponents(SegmentationImage, labeling, labels, StructuringElement.FOUR_CONNECTED);
+	      
+		  LabelImage = labeling.getIndexImg();
+			
+	      return LabelImage;		
+			
+		}
+
 	
 	protected void processParallelSlice(RandomAccessibleInterval< UnsignedByteType > slice, RandomAccessibleInterval< BitType > bitoutputslice, int z, int t) {
 		
@@ -197,6 +240,8 @@ public class ParallelCalls implements Callable<Void> {
 		try {
 		
 			parent.apply3D = false;
+			MSERProgressBar.MSERSetProgressBar(parent.jpb, "Done");
+
 			get();
 		} catch (ExecutionException | InterruptedException e) {
 			e.printStackTrace();
