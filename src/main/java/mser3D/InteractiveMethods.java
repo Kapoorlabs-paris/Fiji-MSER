@@ -34,7 +34,6 @@ import ij.ImagePlus;
 import ij.ImageStack;
 import ij.gui.Overlay;
 import ij.gui.Roi;
-import ij.plugin.frame.RoiManager;
 import ij.process.ColorProcessor;
 import ij3d.Image3DUniverse;
 import mserGUI.CovistoMserPanel;
@@ -72,7 +71,6 @@ public class InteractiveMethods {
 	
 	
 	
-	public RoiManager roimanager;
 	public final int scrollbarSize = 1000;
 	public JProgressBar jpb;
 	public File inputfile;
@@ -227,11 +225,6 @@ public class InteractiveMethods {
 	
 		imp.setTitle("Active image" + " " + "time point : " + CovistoTimeselectPanel.fourthDimension + " " + " Z: "
 				+ CovistoZselectPanel.thirdDimension);
-		roimanager = RoiManager.getInstance();
-
-		if (roimanager == null) {
-			roimanager = new RoiManager();
-		}
 
 		updatePreview(ValueChange.ALL);
 
@@ -258,11 +251,6 @@ public class InteractiveMethods {
 			imp.setOverlay(overlay);
 		}
 
-		roimanager = RoiManager.getInstance();
-
-		if (roimanager == null) {
-			roimanager = new RoiManager();
-		}
 
 	
 

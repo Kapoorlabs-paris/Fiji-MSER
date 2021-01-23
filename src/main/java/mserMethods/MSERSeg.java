@@ -93,7 +93,7 @@ public class MSERSeg extends SwingWorker<Void, Void> {
 			
 			
 			
-				MSERProgressBar.MSERSetProgressBar(jpb, "Done");
+				MSERProgressBar.MSERSetProgressBar(jpb, "Play mode");
 		return null;
 	}
 
