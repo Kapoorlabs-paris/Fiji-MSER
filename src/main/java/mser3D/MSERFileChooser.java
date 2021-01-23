@@ -48,7 +48,7 @@ public class MSERFileChooser extends JPanel {
     public boolean onlySeg = true;
 	
 	public boolean TrackandSeg = false;  
-	  public JFrame Cardframe = new JFrame("Welcome to Computer Vision Segmentation Tools (Covisto)");
+	  public JFrame Cardframe = new JFrame("Spot Segmentation Tool");
 	  public JPanel panelCont = new JPanel();
 	  public JPanel panelFirst = new JPanel();
 	  
