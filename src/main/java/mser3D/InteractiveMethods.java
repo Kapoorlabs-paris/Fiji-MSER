@@ -1,19 +1,12 @@
 package mser3D;
 
-import java.awt.BorderLayout;
-import java.awt.Button;
 import java.awt.CardLayout;
-import java.awt.Checkbox;
 import java.awt.CheckboxGroup;
 import java.awt.Color;
-import java.awt.Dimension;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.Insets;
-import java.awt.Label;
-import java.awt.Scrollbar;
 import java.awt.TextField;
-import java.awt.event.ActionEvent;
 import java.awt.event.MouseListener;
 import java.awt.event.MouseMotionListener;
 import java.io.File;
@@ -26,25 +19,16 @@ import java.util.concurrent.ConcurrentHashMap;
 
 import timeGUI.CovistoTimeselectPanel;
 
-import javax.swing.AbstractAction;
-import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.JProgressBar;
-import javax.swing.JScrollBar;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
-import javax.swing.JTextField;
-import javax.swing.ScrollPaneConstants;
 import javax.swing.border.Border;
 import javax.swing.border.CompoundBorder;
 import javax.swing.border.EmptyBorder;
 import javax.swing.border.TitledBorder;
 
-import org.jgrapht.graph.DefaultWeightedEdge;
-import org.jgrapht.graph.SimpleWeightedGraph;
-
-import ij.IJ;
 import ij.ImageJ;
 import ij.ImagePlus;
 import ij.ImageStack;
@@ -53,17 +37,13 @@ import ij.gui.Roi;
 import ij.plugin.frame.RoiManager;
 import ij.process.ColorProcessor;
 import ij3d.Image3DUniverse;
-import kalmanGUI.CovistoKalmanPanel;
-import mpicbg.imglib.util.Util;
 import mserGUI.CovistoMserPanel;
 import mserMethods.MSERSeg;
-import nearestNeighbourGUI.CovistoNearestNPanel;
 import net.imglib2.Cursor;
 import net.imglib2.FinalInterval;
 import net.imglib2.Point;
 import net.imglib2.RandomAccessibleInterval;
 import net.imglib2.algorithm.componenttree.mser.MserTree;
-import net.imglib2.algorithm.dog.DogDetection;
 import net.imglib2.algorithm.localextrema.RefinedPeak;
 import net.imglib2.algorithm.stats.Normalize;
 import net.imglib2.img.array.ArrayImgFactory;
@@ -439,27 +419,12 @@ public class InteractiveMethods {
 
 	}
 
-	public JFrame Cardframe = new JFrame("Computer Vision Segmentation Tools (CoViSto)");
+	public JFrame Cardframe = new JFrame("MSER Segmentation for spot detection");
 	public JPanel panelCont = new JPanel();
 	public JPanel panelFirst = new JPanel();
-	public JPanel panelSecond = new JPanel();
-	public JPanel panelThird = new JPanel();
 	public JPanel Timeselect = new JPanel();
 	public JPanel Zselect = new JPanel();
 	public JPanel MserPanel = new JPanel();
-	public JPanel DogPanel = new JPanel();
-	public JPanel WaterPanel = new JPanel();
-	public JPanel SnakePanel = new JPanel();
-	public JPanel RoiPanel = new JPanel();
-	public JPanel DetectionPanel = new JPanel();
-	public JPanel RemovalPanel = new JPanel();
-
-	public JPanel NearestNPanel = new JPanel();
-	public JPanel KalmanPanel = new JPanel();
-
-	final String maxSearchstring = "Maximum search radius";
-
-	public JButton Roibutton = new JButton("Confirm current roi selection");
 
 	public CheckboxGroup detection = new CheckboxGroup();
 
@@ -470,12 +435,6 @@ public class InteractiveMethods {
 	public TextField inputField = new TextField();
 	public TextField inputtrackField;
 
-	public int SizeXbig = 400;
-	public int SizeXsmall = 200;
-	public int SizeX = 400;
-	public int SizeY = 200;
-	public int SizeYsmall = 200;
-	public int SizeYbig = 500;
 	public JScrollPane scrollPane;
 	public JPanel PanelSelectFile = new JPanel();
 	public Border selectfile = new CompoundBorder(new TitledBorder("Select Track"), new EmptyBorder(c.insets));
@@ -491,21 +450,9 @@ public class InteractiveMethods {
 
 		panelCont.add(panelFirst, "1");
 
-		panelCont.add(panelSecond, "2");
-
-		panelCont.add(panelThird, "3");
-
 		panelFirst.setLayout(layout);
-		panelSecond.setLayout(layout);
-		panelThird.setLayout(layout);
-		DetectionPanel.setLayout(layout);
-		RoiPanel.setLayout(layout);
-
-		RemovalPanel.setLayout(layout);
 		inputField.setColumns(10);
 
-		Border methodborder = new CompoundBorder(new TitledBorder("Choose a segmentation algorithm"),
-				new EmptyBorder(c.insets));
 		
 		
 
@@ -531,66 +478,14 @@ public class InteractiveMethods {
 
 
 
-		DetectionPanel.setBorder(methodborder);
-		panelFirst.add(DetectionPanel, new GridBagConstraints(0, 1, 3, 1, 0.0, 0.0, GridBagConstraints.WEST,
-				GridBagConstraints.HORIZONTAL, insets, 0, 0));
 
 
 
 		// Mser detection panel
 		MserPanel = CovistoMserPanel.MserPanel();
-		panelFirst.add(MserPanel, new GridBagConstraints(3, 3, 3, 1, 0.0, 0.0, GridBagConstraints.WEST,
+		panelFirst.add(MserPanel, new GridBagConstraints(1, 1, 3, 1, 0.0, 0.0, GridBagConstraints.WEST,
 				GridBagConstraints.RELATIVE, new Insets(10, 10, 0, 10), 0, 0));
 
-		final JButton Zsnakes = new JButton("Apply snakes in Z");
-		final JButton Tsnakes = new JButton("Apply snakes in T");
-		final JButton Allsnakes = new JButton("Apply snakes in Z & T");
-
-		final JButton SinglethreeD = new JButton("Track in Z for currrent T");
-
-		JPanel controlprev = new JPanel();
-		JPanel controlnext = new JPanel();
-
-		controlprev.setLayout(layout);
-		controlnext.setLayout(layout);
-		controlnextthird.setLayout(layout);
-		controlprevthird.setLayout(layout);
-		controlprev.add(new JButton(new AbstractAction("\u22b2Prev") {
-
-			@Override
-			public void actionPerformed(ActionEvent e) {
-				CardLayout cl = (CardLayout) panelCont.getLayout();
-				cl.previous(panelCont);
-			}
-		}));
-
-		controlnext.add(new JButton(new AbstractAction("Next\u22b3") {
-
-			@Override
-			public void actionPerformed(ActionEvent e) {
-				CardLayout cl = (CardLayout) panelCont.getLayout();
-				cl.next(panelCont);
-			}
-		}));
-
-		controlnextthird.add(new JButton(new AbstractAction("Next\u22b3") {
-
-			@Override
-			public void actionPerformed(ActionEvent e) {
-				CardLayout cl = (CardLayout) panelCont.getLayout();
-				cl.next(panelCont);
-			}
-		}));
-		controlprevthird.add(new JButton(new AbstractAction("\u22b2Prev") {
-
-			@Override
-			public void actionPerformed(ActionEvent e) {
-				CardLayout cl = (CardLayout) panelCont.getLayout();
-				cl.previous(panelCont);
-			}
-		}));
-
-		// Active contour refinement panel
 
 		
 		
@@ -613,7 +508,7 @@ public class InteractiveMethods {
 				CovistoMserPanel.scrollbarSize, CovistoMserPanel.minSizeS));
 
 		CovistoMserPanel.maxSizeS.addAdjustmentListener(new PREMaxSizeListener(this, CovistoMserPanel.maxSizeText,
-				CovistoMserPanel.maxSizestring, CovistoMserPanel.maxSizemin, CovistoMserPanel.maxSizemax,
+				CovistoMserPanel.maxSizestring, CovistoMserPanel.minSizemin, CovistoMserPanel.minSizemax,
 				CovistoMserPanel.scrollbarSize, CovistoMserPanel.maxSizeS));
 
 		

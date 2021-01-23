@@ -10,8 +10,8 @@ import javax.swing.SwingWorker;
 
 import ij.gui.Roi;
 import ij.process.ColorProcessor;
-import mser3D.CovsitoProgressBar;
 import mser3D.InteractiveMethods;
+import mser3D.MSERProgressBar;
 import mser3D.PreRoiobject;
 import mserGUI.CovistoMserPanel;
 import net.imglib2.RandomAccessibleInterval;
@@ -35,7 +35,6 @@ public class MSERSeg extends SwingWorker<Void, Void> {
 
 	@Override
 	protected Void doInBackground() throws Exception {
-		if(!parent.snakeongoing) {
 		if (CovistoMserPanel.darktobright)
 
 			parent.newtree = MserTree.buildMserTree(parent.newimg, CovistoMserPanel.delta, CovistoMserPanel.minSize, CovistoMserPanel.maxSize,
@@ -94,8 +93,7 @@ public class MSERSeg extends SwingWorker<Void, Void> {
 			
 			
 			
-				CovsitoProgressBar.CovistoSetProgressBar(jpb, "Done");
-		}
+				MSERProgressBar.MSERSetProgressBar(jpb, "Done");
 		return null;
 	}
 

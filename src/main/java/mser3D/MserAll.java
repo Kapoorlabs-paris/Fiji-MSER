@@ -60,7 +60,7 @@ public class ParallelCalls implements Callable<Void> {
 			double percent = t +z;
 			RandomAccessibleInterval<FloatType> CurrentView = CovistoSlicer.getCurrentView(parent.originalimg, z,
 					CovistoZselectPanel.thirdDimensionSize, t, CovistoTimeselectPanel.fourthDimensionSize);
-			CovsitoProgressBar.CovistoSetProgressBar(parent.jpb, 100 *(percent / (CovistoTimeselectPanel.fourthDimensionSize + CovistoZselectPanel.thirdDimensionSize + 1 )) ,"Computing");
+			MSERProgressBar.MSERSetProgressBar(parent.jpb, 100 *(percent / (CovistoTimeselectPanel.fourthDimensionSize + CovistoZselectPanel.thirdDimensionSize + 1 )) ,"Computing");
 			// UnsignedByteType image created here
 			parent.updatePreview(ValueChange.THIRDDIMmouse);
 			RandomAccessibleInterval<UnsignedByteType> newimg = CovistoSlicer.PREcopytoByteImage(CurrentView);
