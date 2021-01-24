@@ -13,7 +13,7 @@ import java.awt.Label;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 import java.io.File;
-
+import ij.IJ;
 import javax.swing.JButton;
 import javax.swing.JFileChooser;
 import javax.swing.JFrame;
@@ -22,7 +22,6 @@ import javax.swing.border.Border;
 import javax.swing.border.CompoundBorder;
 import javax.swing.border.EmptyBorder;
 import javax.swing.border.TitledBorder;
-
 import ij.ImagePlus;
 import net.imglib2.RandomAccessibleInterval;
 import net.imglib2.img.display.imagej.ImageJFunctions;
@@ -147,7 +146,14 @@ public class MSERFileChooser extends JPanel {
 		RandomAccessibleInterval<FloatType> image = ImageJFunctions.convertFloat(impA);
 		
 		
+		try { 
 		new InteractiveMethods(image,new File(impA.getOriginalFileInfo().directory), impA.getOriginalFileInfo().fileName).run(null);
+		}
+		catch (Exception e) {
+			IJ.saveAs(impA, "tif", System.getProperty("java.io.tmpdir") + "/temp" + System.currentTimeMillis() + ".tif");
+			new InteractiveMethods(image,new File(impA.getOriginalFileInfo().directory), impA.getOriginalFileInfo().fileName).run(null);
+
+		}
 		close(parent);
 		if(impA!=null)
         impA.close();

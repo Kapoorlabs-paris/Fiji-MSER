@@ -498,8 +498,9 @@ public class InteractiveMethods {
 		CovistoMserPanel.maxSizeS.addAdjustmentListener(new PREMaxSizeListener(this, CovistoMserPanel.maxSizeText,
 				CovistoMserPanel.maxSizestring, CovistoMserPanel.minSizemin, CovistoMserPanel.minSizemax,
 				CovistoMserPanel.scrollbarSize, CovistoMserPanel.maxSizeS));
-
-		
+        
+		CovistoMserPanel.findmaximaMser.addItemListener(new FindMaximaMserListener(this));
+		CovistoMserPanel.findminimaMser.addItemListener(new FindMinimaMserListener(this));
 
 		CovistoTimeselectPanel.timeslider.addAdjustmentListener(
 				new PreTimeListener(this, CovistoTimeselectPanel.timeText, CovistoTimeselectPanel.timestring,
