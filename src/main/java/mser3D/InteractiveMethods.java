@@ -221,6 +221,8 @@ public class InteractiveMethods {
 				CovistoZselectPanel.thirdDimensionSize, CovistoZselectPanel.thirdDimension,
 				CovistoTimeselectPanel.fourthDimensionSize);
 
+		if(imp!=null)
+			imp.close();
 		imp = ImageJFunctions.show(CurrentView);
 	
 		imp.setTitle("Active image" + " " + "time point : " + CovistoTimeselectPanel.fourthDimension + " " + " Z: "
