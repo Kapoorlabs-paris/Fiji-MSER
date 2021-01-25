@@ -127,7 +127,7 @@ public class MSERFileChooser extends JPanel {
 	
 	public void Done(Frame parent){
 		
-		
+		// Tracking and Measurement is done with imageA 
         
 		RandomAccessibleInterval<FloatType> image = ImageJFunctions.convertFloat(impA);
 		
@@ -151,11 +151,11 @@ public class MSERFileChooser extends JPanel {
 		catch (Exception e) {
 			IJ.saveAs(impA, "tif", System.getProperty("java.io.tmpdir") + "/temp" + System.currentTimeMillis() + ".tif");
 			new InteractiveMethods(image,new File(impA.getOriginalFileInfo().directory), impA.getOriginalFileInfo().fileName).run(null);
-			close(parent);
-			if(impA!=null)
-				impA.close();
+
 		}
-		
+		close(parent);
+		if(impA!=null)
+        impA.close();
 		
 	}
 
